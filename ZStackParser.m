@@ -1,4 +1,8 @@
 function ZStackParser(isSilent)
+    if ~exist('isSilent','var')
+        isSilent = 1;
+    end
+    
     [filename,pathname] = uigetfile( ...
         {'*.sbx','Scanbox image files (*.sbx)'; '*.*', 'All Files (*.*)'},...
         'Pick the first and last files of the stack','Z:\2P\Ferret 2P\Ferret 2P data','MultiSelect', 'on');
@@ -18,6 +22,8 @@ function ZStackParser(isSilent)
         h = waitbar(0);
         f = figure('position',[18   541   560   420],'name','Calculating stack');
     end
+    
+    frame = zeros(512,796,numFiles,3);
 
     for i=1:numFiles
         fileName = [pathname stackPrefix '_'  sprintf('%03d',range(1) + i - 1)];
@@ -42,9 +48,11 @@ function ZStackParser(isSilent)
         end
     end
 
-    close(h); close(f);
+    if ~isSilent
+        close(h); close(f);
+    end
 
-    save([folderPath '\' stackPrefix '_zConstructed.mat'],'frame');
+    save([pathname stackPrefix '_zConstructed.mat'],'frame');
 end
 
 function [animal,unit,expt] = splitDelimitedExptId(exptID)
