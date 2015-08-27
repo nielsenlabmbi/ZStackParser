@@ -1,4 +1,5 @@
 function ZStackParser(isSilent)
+    % Accepts boolean isSilent = whether or not you wnat to display stuff
     if ~exist('isSilent','var')
         isSilent = 1;
     end
