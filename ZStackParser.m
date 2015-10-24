@@ -1,4 +1,4 @@
-function ZStackParser(isSilent)
+function ZStackParser(isSilent,includeRedChannel)
     % Accepts boolean isSilent = whether or not you wnat to display stuff
     if ~exist('isSilent','var')
         isSilent = 1;
@@ -33,8 +33,13 @@ function ZStackParser(isSilent)
         allFrames = sbxread(fileName,0,info.config.frames);
         avg = mean(allFrames,4);
 
-        frame(:,:,i,1) = squeeze(avg(2,:,:))/max(max(max(squeeze(avg(2,:,:)))));
         frame(:,:,i,2) = squeeze(avg(1,:,:))/max(max(max(squeeze(avg(1,:,:)))));
+        
+        if includeRedChannel
+            frame(:,:,i,1) = squeeze(avg(2,:,:))/max(max(max(squeeze(avg(2,:,:)))));
+        else
+            frame(:,:,i,1) = zeros(size(squeeze(avg(2,:,:))));
+        end
         frame(:,:,i,3) = zeros(size(squeeze(avg(2,:,:))));
 
         if (i==1)
