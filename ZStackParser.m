@@ -4,6 +4,10 @@ function ZStackParser(isSilent,includeRedChannel)
         isSilent = 1;
     end
     
+    if ~exist('includeRedChannel','var')
+        includeRedChannel = 0;
+    end
+    
     [filename,pathname] = uigetfile( ...
         {'*.sbx','Scanbox image files (*.sbx)'; '*.*', 'All Files (*.*)'},...
         'Pick the first and last files of the stack','Z:\2P\Ferret 2P\Ferret 2P data','MultiSelect', 'on');
